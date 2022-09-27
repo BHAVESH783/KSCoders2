@@ -1,0 +1,187 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/profile.css">
+    <title>Profile Page</title>
+    <style>
+        *{
+    margin: 0%;
+    padding: 0%;
+}
+body{
+    background-image: url(../imgs/bg.png);
+    backdrop-filter: blur(4px);
+}
+.heading{
+    margin-top: 30px;
+    text-align: center;
+    background-color: rgb(60,124,245);
+    color: white;
+    font-size: 20px;
+    border-radius: 12px;
+}
+.w-profile{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.w-img{
+    width: 150px;
+    height: 150px;
+}
+.w-info{
+    margin-top: 45px;
+    margin-left: 20px;
+}
+.analitics{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+}
+.a1{
+    margin-right: 200px;
+}
+.a2{
+    margin-right: 200px;
+}
+.btn{
+    width: 110px;
+    height: 50px;
+    background-color: rgb(60,124,245);
+    border-radius: 8px;
+    color: white;
+}
+.btn:hover{
+    border: 3px solid black;
+}
+
+.btn-box{
+    justify-items: center;
+    text-align: center;
+    margin-top: 40px;
+}
+.blogs{
+    background: rgb(60,124,245);
+    display: flex;
+    margin: 80px 80px 80px 80px;
+    box-shadow: 5px 5px 10px  black;
+    border-radius: 8px;
+    transition: all .1s;
+    height: 90px;
+    color: white;
+}
+.blogs:hover{
+    cursor: pointer;
+    border: 2px solid rgb(3, 3, 96);
+    box-shadow: 0px 0px ;
+    
+}
+.content{
+    margin-left: 30px;
+    margin-top: 18px;
+}
+.writer-pic{
+    width: 75px;
+    height: 75px;
+    margin-right: 5px;
+    border-radius: 8px;
+    margin-top: 7px;
+    margin-left: 10px;
+}
+    </style>
+</head>
+
+<body>
+    <div class="w-profile">
+        {% if has %}
+        <img class="w-img" src="{{img}}" alt="">
+        {% else %}
+        <img class="w-img" src="{% static 'image/profile.png' %}" alt="">
+        {% endif %}
+        <div class="w-info">
+            <h2>Munna Bhaiya</h2>
+            <p>Memeber Since 2016</p>
+        </div>
+    </div>
+    <div class="heading">
+        <h3>
+            Analitics
+        </h3>
+    </div>
+    <div class="analitics">
+        <div class="a1">
+            <p>
+                Total Likes :
+            </p>
+            <br>
+            <p>
+                Total Comments :
+            </p>
+            <br>
+            <p>
+                Total Views :
+            </p>
+            <br>
+        </div>
+
+        <div class="a2">
+            <p>
+                Total Blogs :
+            </p>
+            <br>
+            <p>
+                Followers :
+            </p>
+        </div>
+
+    </div>
+    <div class="heading">
+        <h3>
+            Your Blogs
+        </h3>
+    </div>
+    <div class="btn-box">
+        <a class="btn" href="/write/newpost/">Add New Blog
+        </a>
+    </div>
+    <div>
+        <div class="blogs">
+            <img class="writer-pic" src="../imgs/ard.jpg" alt="" />
+            <div class="content">
+                <h3>How to use Ultrasonic with Arduino Mega?</h3>
+                <p>
+                    Beginers guide on how to integrate an ultrasonic(US-501) sensor with a arduino board!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="blogs">
+        <img class="writer-pic" src="../imgs/adani.jpg" alt="" />
+        <div class="content">
+            <h3>Gautami Adani Became 2nd Richest Person!</h3>
+            <p>
+                Breif on how Adani managed to become 2nd richest person by surpassing buffet!
+            </p>
+        </div>
+    </div>
+
+    <div class="blogs">
+        <img class="writer-pic" src="../imgs/upi.jpg" alt="" />
+        <div class="content">
+            <h3>UPI to get accepted in foreign!</h3>
+            <p>
+                Middle east Countries to accept UPI as Payment method check list here!!
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

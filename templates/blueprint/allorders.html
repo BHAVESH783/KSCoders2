@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <style>
+        .bar{
+            border: 1px solid black;
+            border-radius: 20px;
+            padding: 10px;
+            margin: 10px;
+        }
+        .prode{
+            display: flex;
+        }
+        .imshow>img, .limg{
+            width: 200px;
+        }
+        .content{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 30px;
+        }
+        h1{
+            text-align: center;
+        }
+        h3{
+            margin: 0px;
+        }
+        .highlight{
+            background: rgb(243, 255, 82);
+            padding: 5px;
+            border-radius: 10px;
+        }
+        .features{
+            display: flex;
+            justify-content: space-between;
+        }
+        .f{
+            font-size: 25px;
+        }
+        .form, .puthold{
+            font-size:30px;
+        }
+    </style>
+</head>
+<body onscroll="scrolled()">
+    {% include "./nav.html" %}
+    <div class="topbuttons">
+        <!-- empty div -->
+    </div>
+    <div class="newOrders">
+        <h1>New Orders</h1>
+        <div class="data">
+            {% block new %}
+            <div class="bar">
+                <div class="prode">
+                    <div class="imshow">
+                        <img src="media/allproducts/bands.jpeg" alt="">
+                    </div>
+                    <div class="content">
+                        <h3>Hand Bands</h3>
+                        <div class="line">
+                            100 Tax:10% <span class="highlight">ordered By = <a href="">Tilak</a></span>
+                        </div>
+                        <div class="payment">Payment done</div>
+                    </div>
+                </div>
+                <div class="features">
+                    <div class="file">
+                        <div class="f">Quantity: 5</div>
+                    </div>
+                    <div class="text">
+                        <div class="f">Quantity: 5</div>
+                    </div>
+                    <div class="numbers">
+                        <div class="f">Quantity: 5</div>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+    <div class="shipped">
+        <h1>Shipped Orders</h1>
+        <div class="data">
+            {% block progress %}
+            <div class="bar">
+                <div class="prode">
+                    <div class="imshow">
+                        <img src="media/allproducts/bands.jpeg" alt="">
+                    </div>
+                    <div class="content">
+                        <h3>Hand Bands</h3>
+                        <div class="line">
+                            100 Tax:10% <span class="highlight">ordered By = <a href="">Tilak</a></span>
+                        </div>
+                        <div class="payment">Payment done</div>
+                    </div>
+                </div>
+                <div class="features">
+                    <div class="file">
+                        <div class="f">Quantity: 5</div>
+                    </div>
+                    <div class="text">
+                        <div class="f">Quantity: 5</div>
+                    </div>
+                    <div class="numbers">
+                        <div class="f">Quantity: 5</div>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>

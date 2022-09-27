@@ -1,0 +1,309 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <title>Contact us</title>
+    <style>
+        #Image, .ele, #category{
+            display: flex;
+            flex-direction: column;
+        }
+        .ele{
+            margin: 10px;
+        }
+/* 
+<!--        .decorate{-->
+<!--            background: lightblue;-->
+<!--        }--> */
+    </style>
+</head>
+
+<body onscroll="scrolled()">
+{% include "../blueprint/nav.html" %}
+     <div class="contact">
+        <div class="headc">Product Page</div>
+        <form  action="/seller/saveProduct/" method="POST" onsubmit="checkall()" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="inbox">
+                <div class="decorate">
+                    <div id="Image">
+                        <input type="file" name="img" id="img" value="Upload Image">
+                    </div>
+                    <button class="addmore" onclick="addI('Image', 'file')" type="button">Add More Files</button>
+                </div>
+                <div class="decorate">
+                    <input type="text" name="Name" id="Name" placeholder="Product Name">
+                </div>
+                <input type="number" name="Price" id="Price" placeholder="Price">
+                <input type="number" name="tax" id="tax" placeholder="Enter tax percentage">
+                <div class="decorate">
+                    <label for="showIncludeS">Show Included tax</label>
+                    <input type="checkbox" name="showIncluded" id="showIncludeS">
+                </div>
+                <input type="number" name="delivery" id="delivery" name="delivery" placeholder="delivery cost">
+                <textarea name="Description" id="description" cols="30" rows="10" placeholder="Enter description here!"></textarea>
+                <h1>Requirements</h1>
+                <div id="required">
+                    <div class="ele decorate">
+                        <input type="text" name="Feature_Label" id="Feature_Label" placeholder="Requirements" value="Quantity">
+                       <!-- <input type="number" name="Feature_ratio" id="Feature_ratio" placeholder="Ratio" value="1"> -->
+                        <select name="Feature_type" id="Feature_tytpe">
+                            <option value="int">Number</option>
+                            <option value="char">Charachters</option>
+                            <option value="Image">File/Image</option>
+                        </select>
+                        <button class="addmore" onclick="addI('required', 'text')" type="button">Add More Requirements</button>
+                    </div>
+                </div>
+                <input type="number" name="stock" id="stock" placeholder="stock">
+                <div class="decorate">
+                    <label for="stockWarning">Show Stock warnings</label>
+                    <input type="checkbox" name="stockWarning" id="stockWarning">
+                </div>
+                <div class="decorate">
+                    <label for="outproducts">Show product if stock is finished</label>
+                    <input type="checkbox" name="outproducts" id="outproducts">
+                </div>
+                <h1>Category</h1>
+                <div class="decorate">
+                <div id="category" class="decorate">
+                    <input type="text" name="categoryname" id="categoryname" placeholder="Category">
+                    <button class="addmore" onclick="addI('category', 'text')" type="button">Add More Categoriesv</button>
+                </div>
+                </div>
+
+                <input type="submit" value="Add">
+            </div>
+        </form>
+     </div>
+<script>
+    const inputDATA = {"Image": [['img'], 0, [], ['Upload Image'], ['input']],
+                       "required": [["Feature_Label", "Feature_ratio","Feature_type"], 0, ["ele"], ['Requirements', 'Ratio', ''], ['input', 'input', 'select'], [{"Number": "int", "Charachters": "char", "File/Image": "image"}], 0],
+                       "category": [["categoryname"], 0, [], ['Category'], ['input']]};
+
+    function addInput(getID, getList, Ftype, newParent = document){
+            // newInput = document.createElement('input');
+            InputCount = getList[1]+1;
+            getList[1] = InputCount;
+            for(ins=0; ins < getList[0].length; ins++){
+                newInput = document.createElement(getList[4][ins]);
+                newName = getList[0][ins] + InputCount;
+                newInput.name = newName;
+                newInput.id = newName;
+                newInput.type = Ftype;
+                newInput.placeholder = getList[3][ins];
+                if(getList[4][ins] == 'select'){
+                    splace = getList[6];
+                    for(opt in getList[5][splace]){
+                        newOption = document.createElement('option');
+                        newOption.value = getList[5][splace][opt];
+                        newOption.innerHTML = opt;
+                        newInput.appendChild(newOption);
+                    }
+                    getList[6] += 1;
+                    console.log(getList[6]);
+                }
+                if(newParent == document){
+                    parent = newParent.getElementById(getID);
+                }
+                else{
+                    parent = newParent;
+                    // console.log(newInput);
+                }
+                parent.appendChild(newInput);
+                newInput = document.createElement('input');
+            }
+            getList[6] = 0;
+            return parent;
+    }
+    function addI(getID, Ftype){
+        newInput = document.createElement('input');
+        getList = inputDATA[getID];
+        if(inputDATA[getID][2].length == 0){
+            addInput(getID, getList, Ftype);
+        }
+        else{
+            parents = getList[2];
+            base = document.createElement("div");
+            base.classList.add(parents[0]);
+            under = base;
+            for(Pele = 1; Pele<=parents.length-1; Pele++){
+                under = document.createElement("div");
+                under.classList.add(parents[Pele]);
+                base.appendChild(under);
+            }
+            attach = addInput(parents[parents.length-1], getList, Ftype, under);
+            document.getElementById(getID).appendChild(attach);
+        }
+    }
+</script>
+<script>
+    function checkall(){
+        console.log("submitting");
+    }
+</script>
+{% include '../blueprint/footer.html' %}
+</body>
+
+</html>
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Product Panel</title>-->
+<!--    <style>-->
+<!--        #Image, .ele, #category{-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--        }-->
+<!--        -->
+<!--        .ele{-->
+<!--            margin: 10px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="addProduct">-->
+<!--        <form action="/seller/saveProduct/" method="POST" onsubmit="checkall()" enctype="multipart/form-data">-->
+<!--            {% csrf_token %}-->
+<!--            <div>-->
+<!--                <div id="Image">-->
+<!--                    <input type="file" name="img" id="img" value="Upload Image">-->
+<!--                </div>-->
+<!--                <button class="addmore" onclick="addI('Image', 'file')" type="button">Add More Files</button>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--            <input type="text" name="Name" id="Name" placeholder="Product Name">-->
+<!--            </div>-->
+<!--            <input type="number" name="Price" id="Price" placeholder="Price">-->
+<!--            <br>-->
+<!--            <input type="number" name="tax" id="tax" placeholder="Enter tax percentage">-->
+<!--            <br>-->
+<!--            <label for="showIncludeS">Show Included tax</label>-->
+<!--            <input type="checkbox" name="showIncluded" id="showIncludeS">-->
+<!--            <br>-->
+<!--            <input type="number" name="delivery" id="delivery" name="delivery" placeholder="delivery cost">-->
+<!--            <br>-->
+<!--            <textarea name="Description" id="description" cols="30" rows="10" placeholder="Enter description here!"></textarea>-->
+<!--            <br>-->
+<!--            <h1>Requirements</h1>-->
+<!--            <div id="required">-->
+<!--                <div class="ele">-->
+<!--                    <input type="text" name="Feature_Label" id="Feature_Label" placeholder="Requirements" value="Quantity">-->
+<!--                   &lt;!&ndash; <input type="number" name="Feature_ratio" id="Feature_ratio" placeholder="Ratio" value="1"> &ndash;&gt;-->
+<!--                    <select name="Feature_type" id="Feature_tytpe">-->
+<!--                        <option value="int">Number</option>-->
+<!--                        <option value="char">Charachters</option>-->
+<!--                        <option value="Image">File/Image</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <button class="addmore" onclick="addI('required', 'text')" type="button">Add More Requirements</button>-->
+<!--            <br>-->
+
+<!--            <br>-->
+<!--            <input type="number" name="stock" id="stock" placeholder="stock">-->
+<!--            <br>-->
+<!--            &lt;!&ndash; <input type="text" name="updateBy" id="updateBy" placeholder="Update By"> &ndash;&gt;-->
+<!--            &lt;!&ndash; <select name="updateBy" id="updateBy">-->
+<!--                -->
+<!--            </select> &ndash;&gt;-->
+<!--            <br>-->
+<!--            <label for="stockWarning">Show Stock warnings</label>-->
+<!--            <input type="checkbox" name="stockWarning" id="stockWarning">-->
+<!--            <br>-->
+<!--            <label for="outproducts">Show product if stock is finished</label>-->
+<!--            <input type="checkbox" name="outproducts" id="outproducts">-->
+<!--            <br>-->
+<!--            <h1>Category</h1>-->
+<!--            <div id="category">-->
+<!--                <input type="text" name="categoryname" id="categoryname" placeholder="Category">-->
+<!--            </div>-->
+<!--            <button class="addmore" onclick="addI('category', 'text')" type="button">Add More Categoriesv</button>-->
+<!--            &lt;!&ndash; multiple &ndash;&gt;-->
+<!--            <br>-->
+
+<!--            <input type="submit" value="Add">-->
+<!--            -->
+<!--        </form>-->
+<!--        <script>-->
+<!--            const inputDATA = {"Image": [['img'], 0, [], ['Upload Image'], ['input']],-->
+<!--                               "required": [["Feature_Label", "Feature_ratio","Feature_type"], 0, ["ele"], ['Requirements', 'Ratio', ''], ['input', 'input', 'select'], [{"Number": "int", "Charachters": "char", "File/Image": "image"}], 0],-->
+<!--                               "category": [["categoryname"], 0, [], ['Category'], ['input']]};-->
+<!--            -->
+<!--            function addInput(getID, getList, Ftype, newParent = document){-->
+<!--                    // newInput = document.createElement('input');-->
+<!--                    InputCount = getList[1]+1;-->
+<!--                    getList[1] = InputCount;-->
+<!--                    for(ins=0; ins < getList[0].length; ins++){-->
+<!--                        newInput = document.createElement(getList[4][ins]);-->
+<!--                        newName = getList[0][ins] + InputCount;-->
+<!--                        newInput.name = newName;-->
+<!--                        newInput.id = newName;-->
+<!--                        newInput.type = Ftype;-->
+<!--                        newInput.placeholder = getList[3][ins];-->
+<!--                        if(getList[4][ins] == 'select'){-->
+<!--                            splace = getList[6];-->
+<!--                            for(opt in getList[5][splace]){-->
+<!--                                newOption = document.createElement('option');-->
+<!--                                newOption.value = getList[5][splace][opt];-->
+<!--                                newOption.innerHTML = opt;-->
+<!--                                newInput.appendChild(newOption);                                -->
+<!--                            }-->
+<!--                            getList[6] += 1;-->
+<!--                            console.log(getList[6]);-->
+<!--                        }-->
+<!--                        if(newParent == document){-->
+<!--                            parent = newParent.getElementById(getID);-->
+<!--                        }-->
+<!--                        else{-->
+<!--                            parent = newParent;-->
+<!--                            // console.log(newInput);-->
+<!--                        }-->
+<!--                        parent.appendChild(newInput);-->
+<!--                        newInput = document.createElement('input');                            -->
+<!--                    }-->
+<!--                    getList[6] = 0;-->
+<!--                    return parent;-->
+<!--            }-->
+<!--            function addI(getID, Ftype){-->
+<!--                newInput = document.createElement('input');-->
+<!--                getList = inputDATA[getID];-->
+<!--                if(inputDATA[getID][2].length == 0){-->
+<!--                    addInput(getID, getList, Ftype);-->
+<!--                }-->
+<!--                else{-->
+<!--                    parents = getList[2];-->
+<!--                    base = document.createElement("div");-->
+<!--                    base.classList.add(parents[0]);-->
+<!--                    under = base;-->
+<!--                    for(Pele = 1; Pele<=parents.length-1; Pele++){-->
+<!--                        under = document.createElement("div");-->
+<!--                        under.classList.add(parents[Pele]);-->
+<!--                        base.appendChild(under);                    -->
+<!--                    }                        -->
+<!--                    attach = addInput(parents[parents.length-1], getList, Ftype, under);-->
+<!--                    document.getElementById(getID).appendChild(attach);-->
+<!--                }-->
+<!--            }-->
+<!--        </script>-->
+<!--        <script>-->
+<!--            function checkall(){-->
+<!--                console.log("submitting");-->
+<!--            }-->
+<!--        </script>-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->

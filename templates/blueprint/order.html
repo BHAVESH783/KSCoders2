@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <style>
+        .tophead{
+            text-align: center;
+            color: rgb(0, 140, 255);
+        }
+        .group{
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0.1px 0.1px 10px rgba(0, 0, 0, 0.438);
+            margin: 40px;
+            border-radius: 20px;
+            padding: 10px;
+        }
+        .ineach{
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0.1px 0.1px 10px rgba(0, 0, 0, 0.438);
+            margin: 10px;
+            overflow: hidden;
+            border-radius: 20px;
+            padding: 10px;
+        }
+        .gfc{
+            color: white;
+            background: blue;
+            border-radius:10px;
+            padding:5px;
+            margin:5px;
+            font-size:10px;
+        }
+        .labels{
+            font-size: 20px;
+        }
+        .makebox{
+            font-size: 25px;
+        }
+        .alldata{
+            border-top: 1px solid black;
+            margin: 20px;
+            overflow: hidden;
+            height: 0px;
+            transition: all 1s;
+        }
+        .imlimit{
+            width: 200px;
+        }
+        .each{
+            display: flex;
+            position: relative;
+            /* border: 1px solid black; */
+            
+            flex-wrap: wrap;
+        }
+        .photo>img{
+            width: 200px;
+            border-radius: 10px;
+        }
+        .discription{
+            display: inline-flex;
+            flex-direction: column;
+            position: relative;
+            justify-content: space-around;
+            /* border: 1px solid red; */
+            font-size: 20px;
+            padding: 10px;
+        }
+        .name{
+            font-size: 30px;
+        }
+        .price{
+            font-size: 30px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .odrbut{
+            padding:5px;
+            font-size:20px;
+            color:white;
+            background: #3c86f5;
+            border: none;
+        }
+        .odrbut:hover{
+            cursor:pointer;
+        }
+
+
+        @media screen and (max-width:900px){
+            .each{
+                align-items: center;
+            }
+            .photo>img{
+                width: 130px;
+            }
+        }
+        @media screen and (max-width:500px){
+            .each{justify-content:center; margin:10px;}
+        }
+    </style>
+</head>
+<body onscroll="scrolled()">
+    {% include './nav.html' %}
+    <div class="myorder">
+        <h1 class="tophead">My Orders</h1>
+        <div class="table">
+            {% block each %}
+                <div class="each">
+                    <div class="photo">
+                        <img src="media/allproducts/bands.jpeg" alt="">
+                    </div>
+                    <div class="discription">
+                        <a href="" class="name">Some Product</a>
+                        <div class="price">1200</div>
+                        <div class="delievery"><b>Delievery Status:</b> Shipped</div>
+                        <div class="point"><a href="">View Details</a>  <a href="">Cancel Order</a></div>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+
+<!--    <div class="myorder">-->
+<!--        <h1 class="tophead">Delivered orders</h1>-->
+<!--        <div class="table">-->
+<!--            {% block history %}-->
+<!--                <div class="each">-->
+<!--                    <div class="photo">-->
+<!--                        <img src="media/allproducts/bands.jpeg" alt="">-->
+<!--                    </div>-->
+<!--                    <div class="discription">-->
+<!--                        <a href="" class="name">Some Product</a>-->
+<!--                        <div class="price">1200</div>-->
+<!--                        <div class="delievery"><b>Delievery Status:</b> Shipped</div>-->
+<!--                        <div class="point"><a href="">View Details</a>  <a href="">Cancel Order</a></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            {% endblock %}-->
+<!--        </div>-->
+<!--    </div>-->
+{% include './footer.html' %}
+</body>
+</html>

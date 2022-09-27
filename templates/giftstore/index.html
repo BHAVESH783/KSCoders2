@@ -1,0 +1,38 @@
+{% extends "../blueprint/home.html" %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block images %}
+{% for i in Image %}
+        .ping{{i.id}}{
+            background: url("{{url}}media/{{i.HomeImg.img}}")
+        }
+    {% endfor %}
+{% endblock %}
+{% block buttons %}
+<div class="customize">
+    <a href="/signup">Sign Up</a>
+</div>
+<div class="customize">
+    <a href="signin">Sign In</a>
+</div>
+{% endblock %}
+
+{% block latest %}
+    {% for p in latest %}
+    {% include '../blueprint/card.html' %}
+    {% endfor %}
+{% endblock %}
+
+{% block products %}
+    {% for p in products %}
+    {% include '../blueprint/card.html' %}
+    {% endfor %}
+{% endblock %}
+
+{% block recent %}
+            {% for p in Recently %}
+            {% include '../blueprint/card.html' %}
+            {% empty %}
+            <script>document.getElementById('recent').style.display = 'none';</script>
+            {% endfor %}
+{% endblock %}

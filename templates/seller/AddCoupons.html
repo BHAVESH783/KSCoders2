@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <title>Add Coupons</title>
+</head>
+<body onscroll="scrolled()">
+{% include "../blueprint/nav.html" %}
+
+<div class="contact">
+    <div class="headc">Add Coupons</div>
+    <form action="/seller/registercoupon/" method="post">
+        <div class="inbox">
+            {% csrf_token %}
+            <input type="text" name="code" id="code" placeholder="NEW COUPON CODE" required />
+            <input type="number" name="amount" id="amount" placeholder="Amount" required />
+            <label for="AmountType">Amount type pernectage</label> <input type="checkbox" name="AmountType" id="AmountType" required />
+            <input type="number" name="MaximumDiscount" id="MaximumDiscount" placeholder="Maximum Discount of the offered" required />
+            <input type="date" name="valid" id="valid" required />
+            <input type="number" name="AmountOfCoupons" id="AmountOfCoupons" placeholder="Amount Of Coupons" required />
+            <input type="number" name="perperson" id="perperson" placeholder="Use Limit for One User" required />
+            <input type="number" name="minprice" id="minprice" placeholder="Minimum price to eligible for coupon" required />
+            <input type="submit" value="Add Coupon">
+        </div>
+    </form>
+</div>
+</body>
+</html>

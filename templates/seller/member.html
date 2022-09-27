@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Member</title>
+</head>
+<body>
+<h1>Add new member</h1>
+<form action="" method="post">
+    {%csrf_token %}
+    <input type="email" name="email" placeholder="Email Id of the member">
+    <input type="text" name="UserType" placeholder="Enter User type">
+    <input type="submit" value="Add Member">
+</form>
+</body>
+</html>

@@ -1,0 +1,132 @@
+{% extends '../blueprint/address.html' %}
+{% block bodys %}
+<div class="contact">
+    <div class="headc">Please Select your address</div>
+    {% if purchase %}
+    <form action="/cart/purchase/{{action}}/" method="post">
+    {% else %}
+    <form action="/saveAddress/" method="post">
+    {% endif %}
+        {% csrf_token %}
+        <div class="inbox">
+        <div class="danger">{{error}}</div>
+        <div style="display:flex; justify-content:space-around;">
+            <input type="hidden" name="gid" value="{{gid}}">
+            <input class="strech" type="text" name="first" id="first" value="{{r.first_name}}" placeholder="First Name" required>
+            <input class="strech" type="text" name="last" id="last" value="{{r.last_name}}" placeholder="Last Name" required>
+        </div>
+        <div>Enter your address</div>
+        <div class="eidiv" id="nhold">
+            <label for="name" style="font-size:20px">Enter address name <small>(Ex. Home, Office)</small></label>
+            <select type="text" name="name" id="name" value="{{prior.name}}" oninput="updatesA()" required>
+                <option value="{{prior.name}}">{{prior.name}}</option>
+                {% for e in every %}
+                {% if e.name != prior.name %}
+                <option value="{{e.name}}">{{e.name}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+            <button onclick="change()" type="button">Add New Address</button>
+        </div>
+        <script>
+            dsa = {}
+            {% for d in every %}
+            dsa["{{d.name}}"] = {'pincode': "{{d.Pincode}}", 'address': "{{d.address}}",
+                                "address2": "{{d.address2}}", "city": "{{d.City}}", "state": "{{d.State}}",
+                                "country": "{{d.Country}}", "first":"{{r.first_name}}", "last": "{{r.last_name}}"
+                                }
+            {% endfor %}
+            nh = document.getElementById('nhold')
+            function change(){
+                nh.innerHTML = `<label for="name" style="font-size:20px">Enter address name <small>(Ex. Home, Office)</small></label>`
+                nh.innerHTML += `<input type="text" name="name" id="name" placeholder='Address Name (Ex. Home, office)' value="Home" required>`
+                allis = document.getElementsByTagName('input');
+                for(i=0;i<allis.length;i++){
+                    geti = allis[i]
+                    if((geti.type != 'submit')&&(geti.type != 'hidden')){
+                        geti.value = ''
+                    }
+                }
+            }
+
+            selectC = document.getElementById('name')
+            function updatesA(){
+                na = selectC.value;
+                allis = document.getElementsByTagName('input');
+                for(i=0;i<allis.length;i++){
+                    geti = allis[i]
+                    if((geti.type != 'submit')&&(geti.type != 'hidden')){
+                        geti.value = dsa[na][geti.name]
+                    }
+                }
+            }
+        </script>
+            <div class="eidiv">
+            <input type="number" name="pincode" id="pincode" placeholder="Pincode" onblur="updateCS()" value="{{prior.Pincode}}" required>
+            <input name="address" id="address" placeholder="Address" value="{{prior.address}}" required></input>
+            <input name="address2" id="address2" placeholder="Address Line 2" value="{{prior.address2}}" required></input>
+            <input type="text" name="city" id="city" placeholder="City" value="{{prior.City}}" required>
+            <input type="text" name="state" id="state" placeholder="State" value="{{prior.State}}" required>
+            <input type="text" name="country" id="country" placeholder="Country" value="{{prior.Country}}" required>
+            <input type="submit" value="Submit">
+        </div>
+        <script>
+        function c(){
+        console.log(1);
+        }
+            already = 0
+            pin = {}
+            function updateCS(){
+                v = document.getElementById('pincode').value
+                if (already != v){
+                    pin = pincode(v);
+                }
+                if (pin[0].Status == "Success"){
+                    already = v;
+                    pas = pin[0]['PostOffice'][0];
+                    city = pas['District'];
+                    state = pas['State'];
+                    country = pas['Country'];
+                    document.getElementById('city').value = city;
+                    document.getElementById('state').value = state;
+                    document.getElementById('country').value = country;
+                }
+            }
+            function pincode(theUrl)
+            {
+                a = String(theUrl)
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "GET", "https://api.postalpincode.in/pincode/"+a, false ); // false for synchronous request
+                xmlHttp.send( null );
+                return JSON.parse(xmlHttp.responseText);
+            }
+        </script>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Select Address</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Select Address</h1>-->
+<!--<form action="/cart/purchase/{{action}}/" method="post">-->
+<!--    {% csrf_token %}-->
+<!--<select name="address" id="address">-->
+<!--    {% for e in every %}-->
+<!--    <option value="{{e.name}}">{{e.name}}</option>-->
+<!--    {% endfor %}-->
+<!--</select>-->
+
+<!--<div class="detail">-->
+
+<!--</div>-->
+<!--    <input type="submit" value="Purchase">-->
+<!--</form>-->
+<!--</body>-->
+<!--</html>-->

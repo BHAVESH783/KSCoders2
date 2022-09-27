@@ -1,0 +1,104 @@
+{% load static %}
+<nav>
+    <div class="topbox">
+        <div id="search">
+            <div class="proper">
+                <form action="/search/" method="get" id="find">
+                    <label for="sbar" onclick="search()"><i class="fa fa-search" aria-hidden="true"></i></label>
+                    <div class="border">
+                        <input type="search" name="sbar" id="sbar" class="sin" placeholder="Search">
+                    </div>
+                </form>
+                <script>
+                    s = document.getElementById('find');
+                    function search(){
+                        s.submit();
+                    }
+                </script>
+            </div>
+            <div class="close"><button onclick="Open('search')" class="navBut" style="color: white;">X</button></div>
+        </div>
+        <div id="account">
+            <div class="proper">
+<!--                <a href="/cart/myorder">My Order</a>-->
+                <!-- <a href="/profile">Profile</a> -->
+                <a href="/resume/">My resumes</a>
+                <a href="/resume/new/">Create new Resume</a>
+                <a href="/logout">Log Out</a>
+            </div>
+            <div class="close"><button onclick="Open('account')" class="navBut" style="color: white;">X</button></div>
+        </div>
+    </div>
+    <div class="navbar">
+        <div class="logo">
+            <h2 style="margin:0px;"><a href="/"><img id="logo" style="width:70px;" src="{% static 'image/jup.png' %}" alt=""></a></h2>
+        </div>
+        <div class="navMenu">
+            <!-- <a href="/" class="menu">Home</a> -->
+
+        </div>
+        <div class="buttons">
+            {% block buttons %}
+                <div class="customize">
+                    <button onclick="Open('search')" class="navBut"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </div>
+                {% if login %}
+<!--                <div class="customize">-->
+<!--                    <a href="/cart/cartBuyNow/add/"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>-->
+<!--                </div>-->
+                <div class="customize">
+                    <button onclick="Open('account')" class="navBut"><i class="fa fa-user" aria-hidden="true"></i></a></button>
+                </div>
+                {% if admin %}
+                <div class="customize">
+                    <a href="/seller/"><i class="fa fa-gear setting"></i></a>
+                </div>
+                {% endif %}
+                {% else %}
+                <div class="customize">
+                    <a href="/signup">Sign Up</a>
+                </div>
+                <div class="customize">
+                    <a href="signin">Sign In</a>
+                </div>
+                {% endif %}
+            {% endblock %}
+        </div>
+        <script>
+            opened = {};
+            function Open(id){
+               obj = document.getElementById(id);
+               if(!(obj in opened)){
+                    opened[obj] = true;
+                    //obj.classList.add('open');
+                    obj.style.height = "70px";
+                    obj.style.padding = "10px 10px 10px 10px";
+               }
+               else{
+                if(opened[obj]){
+                    opened[obj] = false;
+                    obj.classList.remove('open');
+                    obj.style.height = "0px"
+                    obj.style.padding = "0px"
+                }
+                else{
+                    opened[obj] = true;
+                    obj.classList.add('open');
+                    obj.style.height = "70px"
+                    obj.style.padding = "10px 10px 10px 10px";
+                }
+               }
+            }
+
+            function scrolled(){
+                nav = document.getElementsByTagName('nav')[0];
+                if((nav.getBoundingClientRect().top == 0)&&(nav.offsetTop!=0)){
+                    nav.classList.add('navscrol');
+                }
+                else{
+                    nav.classList.remove('navscrol')
+                }
+            }
+        </script>
+    </div>
+</nav>

@@ -1,0 +1,47 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Vollkorn', serif;
+}
+body{
+    background-image: url(../imgs/bg.png);
+    backdrop-filter: blur(4px);
+}
+
+html{
+    margin: 0px;
+    padding: 0px;
+}
+h2{
+    text-align: center;
+    margin-top: 30px;
+}
+#section1{
+    margin: 30px;
+    text-align: left;
+    justify-content: center;
+    color: white;
+}
+.blogs{
+    background: rgb(60,124,245);
+    display: flex;
+    margin: 80px 80px 80px 80px;
+    box-shadow: 5px 5px 10px  black;
+    border-radius: 8px;
+    transition: all .1s;
+}
+.blogs:hover{
+    cursor: pointer;
+    border: 2px solid rgb(3, 3, 96);
+    box-shadow: 0px 0px ;
+}
+.content{
+    margin-left: 30px;
+    margin-top: 18px;
+}
+.writer-pic{
+    width: 75px;
+    height: 75px;
+    margin-right: 5px;
+    border-radius: 8px;
+}

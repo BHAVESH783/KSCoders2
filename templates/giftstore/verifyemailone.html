@@ -1,0 +1,165 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <title>Contact us</title>
+</head>
+
+<body onscroll="scrolled()">
+{% include "../blueprint/nav.html" %}
+     <div class="contact">
+        <div class="headc">Verify your email ID</div>
+        <form action="/getOTPmail" method="post">
+            {% csrf_token %}
+            <div class="inbox">
+                <div class="logo"><img id="logo" style="width:250px; margin:-46px;" src="{% static 'image/jup.png' %}" alt=""></a></div>
+                <div class="bluetext"><b>Email Verification</b></div>
+                <div class="bluetext" style="font-size:15px">Check your OTP in your Email ID: {{email}}</div>
+                <div class="danger">{{error}}</div>
+                <input type="number" name="otp" id="otp" placeholder="Enter your OTP" maxlength="4" required>
+                <input class="buttonfloor" type="submit" value="submit">
+                <div class="bluetext" style="font-size:20px"><a href="/resend">Resend OTP</a> or <a href="">Change Email ID</a></div>
+                <div class="long" style="height:100px"></div>
+            </div>
+        </form>
+     </div>
+{% include '../blueprint/footer.html' %}
+</body>
+
+</html>
+
+<!--{% load static %}-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Document</title>-->
+<!--    <link rel="stylesheet" href="style.css">-->
+<!--<style>-->
+<!--*{-->
+<!--    margin: 0;-->
+<!--    padding: 0;-->
+<!--    box-sizing: border-box;-->
+<!--}-->
+
+<!--body{-->
+<!--    margin-bottom:0 ;-->
+<!--    width: 100%;-->
+<!--    height: 830px;-->
+<!--   /* background:  black; */-->
+<!--   background-image: radial-gradient(circle at 80%  20%, #00c9a7 20%,  #0000 20%, #0000 100%),-->
+<!--   radial-gradient(circle at 20% 90%,#df4adf 20%,#0000 20%, #0000 100%),-->
+<!--   linear-gradient(#fef7ff,#df4adf);-->
+<!--}-->
+<!--main{-->
+<!--    width: 500px;-->
+<!--    height: 800px;-->
+<!--    background: #cccccccc;-->
+<!--    margin: 30px auto;-->
+<!--    padding: 30px;-->
+<!--    border-radius: 50px;-->
+<!--    border: 3px solid #f5f5f5;-->
+<!--    box-shadow: 1px 1px 1px 10px #00000080;-->
+
+
+<!--}-->
+<!--/* h1{-->
+<!--    text-align: center;-->
+<!--    font-size: 100px;-->
+<!--    color: darkcyan;-->
+<!--    margin: 20px auto;-->
+
+<!--} */-->
+<!--img{-->
+<!--    width: 150px;-->
+<!--    height: 150px;-->
+<!--    justify-content: center;-->
+<!--    align-items: center;-->
+<!--    margin-left: 150px;-->
+<!--    margin-top: 20px;-->
+<!--    margin-bottom: 0;-->
+<!--}-->
+<!--h2{-->
+<!--    text-align: center;-->
+<!--    font-size: 30px;-->
+<!--    text-transform: capitalize;-->
+<!--    text-shadow: 1px 1px 1px gray;-->
+<!--}-->
+<!--p{-->
+<!--    width: 350px;-->
+<!--    margin: 20px auto;-->
+<!--    font-size: 20px;-->
+<!--    line-height: 35px;-->
+<!--}-->
+<!--div{-->
+<!--    padding: 20px;-->
+<!--    /* margin: 20px; */-->
+<!--    display: flex;-->
+<!--    height: 100px;-->
+<!--    align-items: center;-->
+<!--    justify-content: center;-->
+
+<!--}-->
+<!--input{-->
+<!--    width: 50px;-->
+<!--    margin: 0 10px;-->
+<!--    border: none;-->
+<!--    text-align: center;-->
+<!--    padding: 10px;-->
+<!--    font-size: 20px;-->
+<!--    font-weight: 800;-->
+<!--}-->
+<!--button{-->
+<!--    width: 90%;-->
+<!--    margin: 20px ;-->
+<!--    font-size: 25px;-->
+<!--    font-weight: bold;-->
+<!--    background: orangered;-->
+<!--    color: #f5f5f5;-->
+<!--    border: none;-->
+<!--    padding: 10px;-->
+<!--    outline: none;-->
+
+<!--}-->
+
+<!--h4{-->
+<!--    text-align: center;-->
+<!--    width: 60%;-->
+<!--    margin: 50px auto auto auto;-->
+<!--    font-size: 20px;-->
+<!--    text-transform: capitalize;-->
+<!--}-->
+<!--span{-->
+<!--    color: red;-->
+<!--}-->
+<!--</style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <main>-->
+<!-- <h2>Acccount Verification</h2>-->
+<!--  <img src="{% static 'image/jup.png' %}" alt="">-->
+<!-- <p>We have send you access code via Email on your email ID...</p>-->
+<!-- <h4>Enter your OTP Code Here</h4>-->
+<!-- <div>-->
+<!--     <form action="/getOTPmail" method="post">-->
+<!--        {% csrf_token %}-->
+<!--        <input type="text" style="width:auto;" name="otp" id="otp" maxlength="4" placeholder="OTP">-->
+<!--        <button formaction="/getOTPmail">Verify</button>-->
+<!--    </form>-->
+<!--</div>-->
+<!--<span class="danger" align="center">{{error}}</span>-->
+<!--<h4>Not receive code <span>Resends</span></h4>-->
+<!--</main>-->
+<!--</body>-->
+<!--</html>-->

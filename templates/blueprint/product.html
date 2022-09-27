@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        {% block images %}
+        {% endblock %}
+        .list{
+            display: flex;
+            overflow-x: scroll;
+            flex-wrap: nowrap;
+        }
+        .lists{
+            width: 100px;
+            margin: 10px;
+        }
+        /* .lists{
+            border: none;
+            background: transparent;
+        } */
+        .lists:hover{
+            cursor: pointer;
+        }
+        .main{
+            width: 40vw;
+            max-width:450px;
+        }
+        .carry{
+            text-align: center;
+            position: sticky;
+            top: 10px;
+            width: 40vw;
+        }
+
+        .details>h1{
+            font-size: 35px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .price{
+            font-size: 25px;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .ratings{
+            font-size: 20px;
+            color: yellow;
+        }
+        .rlinks>button{
+            border: 1px solid rgb(60 134 245);
+            font-size: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgb(60 134 245);
+            color: white;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        .rlinks>button:hover{
+            cursor: pointer;
+        }
+        .details{
+            width:50vw;
+        }
+        .entry{
+            font-size: 20px;
+            margin: 10px;
+        }
+        
+        .product{
+            display: flex;
+            justify-content: space-around;
+            margin: 10px;
+            flex-wrap: wrap;
+        }
+        #whatsapp{
+            background: green;
+        }
+        @media screen and (max-width:950px){
+            .main{
+                width:50vw;
+                min-width:350px;
+            }
+            .details{
+                width:80vw;
+            }
+            .carry{width:auto;}
+            .list{
+                width:95vw;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body onscroll="scrolled()">
+    {% include './nav.html' %}
+    <div class="product">
+        <div class="images">
+            <div class="carry">
+                {% block firstMG %}
+                {% endblock %}
+                <div class="list">
+                    {% block img %}
+                    <img src="media/allproducts/bands.jpeg" alt="">
+                    <img src="media/allproducts/bands.jpeg" alt="">
+                    <img src="media/allproducts/bands.jpeg" alt="">
+                    <img src="media/allproducts/bands.jpeg" alt="">
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+        <div class="details">
+            <div class="brands">{% block category %}{% endblock %}</div>
+            <h1>{% block pname %}{% endblock %}</h1>
+            <div class="ratings">
+                {% block rating %}
+<!--                    <span class="fa fa-star checked"></span>-->
+<!--                    <span class="fa fa-star checked"></span>-->
+<!--                    <span class="fa fa-star checked"></span>-->
+<!--                    <span class="fa fa-star checked"></span>-->
+<!--                    <span class="fa fa-star"></span>-->
+                {% endblock %}
+            </div>
+            <div class="price"><b>Price: {% block price %}{% endblock %}</b></div>
+                {% block feature %}
+                {% endblock %}
+            <div class="details">
+                <h3>Product Details</h3>
+                <p>
+                    {% block detail %}{% endblock %}
+                </p>
+            </div>
+        </div>
+
+        <script>
+            main = document.getElementsByClassName('main')[0];            
+            function clickme(self){main.src = self.src;}
+        </script>
+    </div>
+    <div class="bottoms">
+        <div class="heading">
+            <i>Related Products</i>
+        </div>
+        <div class="products">
+            {% block related %}
+            {% endblock %}
+        </div>
+
+         <div class="heading">
+            <i>Recently Viewed</i>
+        </div>
+        <div class="products">
+            {% block recent %}
+            {% endblock %}
+        </div>
+    </div>
+{% include './footer.html' %}
+</body>
+</html>

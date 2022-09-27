@@ -1,0 +1,17 @@
+{% extends '../blueprint/search.html' %}
+{% block title %}Search{% endblock %}
+{% block images %}
+{% for i in Image %}
+        .ping{{i.id}}{
+            background: url("{{url}}media/{{i.HomeImg.img}}")
+        }
+    {% endfor %}
+{% endblock %}
+
+{% block list %}
+{% for p in products %}
+{% include '../blueprint/card.html' %}
+{% empty %}
+<h2>No results found :(</h2>
+{% endfor %}
+{% endblock %}

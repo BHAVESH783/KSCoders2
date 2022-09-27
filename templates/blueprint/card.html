@@ -1,0 +1,40 @@
+<div class="card">
+<div class="ping ping{{p.id}}">
+
+    <div class="buts">
+        {% if p.instock %}
+        <a href="{{url}}{{p.Name}}" class="cardBcart">Add to Cart</a>
+        <a href="{{url}}{{p.Name}}" class="cardBcart">Buy Now</a>
+        {% else %}
+        <a href="{{url}}{{p.Name}}" class="cardBcart">View Product</a>
+        {% endif %}
+    </div>
+</div>
+<div class="detail">
+    <div class="Name">
+        <a href="{{url}}{{p.Name}}">{{p.Name}}</a>
+    </div>
+    <div class="price">
+        <span class="rate">₹{{p.finalprice.tp}}<span class="verysmall">{{p.finalprice.ms}}</span></span>
+        <span class="danger">
+            {% if p.instock %}
+                {% if p.showStockWarnings %}
+                Hurry Up! only few are left
+                {% endif %}
+            {% else %}
+                Out of stock!
+            {% endif %}
+        </span>
+        <br>
+        <!-- <span class="ratings">
+            <span class="stars">
+                <i class="fa fa-star checked"></i>
+                <i class="fa fa-star checked"></i>
+                <i class="fa fa-star checked"></i>
+                <i class="fa fa-star checked"></i>
+                <i class="fa fa-star"></i>
+            </span>
+        </span> -->
+    </div>
+</div>
+</div>

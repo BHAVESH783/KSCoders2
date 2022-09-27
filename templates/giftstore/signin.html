@@ -1,0 +1,70 @@
+{% extends '../blueprint/LoginUp.html' %}
+{% block title %}Sign In{% endblock %}
+{% block pageone %}
+<form action="/login/" method="post" class="sign-in-form">
+    {% csrf_token %}
+    <h2 class="title">Sign in</h2>
+    <div class="input-field">
+        <i class="fas fa-user"></i>
+        <input type="text" name="username" id="username" placeholder="Email/Phone">
+    </div>
+    <div class="input-field">
+        <i class="fas fa-lock"></i>
+        <input type="password" name="password" id="passwordIN" placeholder="Password">
+    </div>
+    <input type="submit" value="Login" class="btn">
+    {{error}}
+    <p class="social-text"><a href="/forgot/">Forgot password?</a></p>
+    <p class="account-text">Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a></p>
+</form>
+<form action="/upstore/" method="post" class="sign-up-form">
+    {% csrf_token %}
+    <h2 class="title">Sign up</h2>
+    <div class="input-field">
+        <i class="fas fa-user"></i>
+        <input type="text" name="username" id="usernames" placeholder="Username" required>
+    </div>
+    <div class="input-field">
+        <i class="fas fa-envelope"></i>
+        <input type="email" name="Email" id="Email" placeholder="Email" required>
+    </div>
+    <div class="input-field">
+        <i class="fas fa-lock"></i>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+    </div>
+    <div class="error">
+        <ul>
+        {% for mistake in errors %}
+            <li>{{mistake}}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="input-field">
+        <i class="fas fa-lock"></i>
+        <input type="password" name="repassword" id="repassword" placeholder="Repeat Password" required>
+    </div>
+    <div class="error">
+        {{re_password}}
+    </div>
+    <input type="submit" value="Sign up" class="btn">
+    <p class="account-text">Already have an account? <a href="#" id="sign-in-btn2">Sign in</a></p>
+</form>
+{% endblock %}
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Sign In</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<form action="/login/" method="post">-->
+<!--    {% csrf_token %}-->
+<!--    <input type="text" name="username" id="username" placeholder="Username">-->
+<!--    <input type="password" name="password" id="password" placeholder="Passwrd">-->
+<!--    <input type="submit" value="Submit"><br>-->
+<!--    {{error}}-->
+<!--</form>-->
+<!--</body>-->
+<!--</html>-->

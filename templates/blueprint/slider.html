@@ -1,0 +1,87 @@
+{% load static %}
+<div class="block">
+    <div class="slider">
+    <div class="slide" id="mover">
+        <div class="page">
+            <img  src="{% static 'image/1.png' %}" alt="" class="slideIMG">
+        </div>
+        <div class="page">
+            <img src="{% static 'image/2.png' %}" alt="" class="slideIMG">
+        </div>
+        <div class="page">
+            <img src="{% static 'image/3.png' %}" alt="" class="slideIMG">
+        </div>
+    </div>
+    <div class="layer">
+        <div class="sliderhead"></div>
+        <div class="navigation">
+            <button onclick="previous()" class="previous"><b>&lt;</b></button>
+            <button onclick="next()" class="previous"><b>&gt;</b></button>
+        </div>
+        <div class="bottom">
+            <div>
+                <button onclick="go(0)" class="dash spot" id="0"></button>
+                <button onclick="go(1)" class="dash" id="1"></button>
+                <button onclick="go(2)" class="dash" id="2"></button>
+            </div>
+        </div>
+    </div>
+    <script>
+        slider = {'pos':0, 'time':5000, 'free':true}
+        mover = document.getElementById('mover');
+        gpage = mover.getElementsByClassName("page");
+        function spot(){
+            id = slider.pos;
+            dash = document.getElementsByClassName('dash');
+            for(p=0;p<dash.length;p++){
+                d = dash[p];
+                if(d.id == String(id)){
+                    d.classList.add("spot");
+                }
+                else{
+                    // console.log(d);
+                    d.classList.remove("spot");
+                }
+            }
+        }
+        function place(but){
+            mover.style.left = (slider.pos*100*-1)+'%';
+            spot();
+            if(!(but)){
+                slider.free = false;
+            }
+        }
+        function go(id){
+            slider.pos = id;
+            place(false);
+        }
+        function next(but=false){
+            if(slider.pos == gpage.length-1){
+                slider.pos = 0;
+            }
+            else{
+                slider.pos += 1;
+            }
+            place(but);
+        }
+        function previous(but=false){
+            if(slider.pos == 0){
+                slider.pos = gpage.length-1;
+            }
+            else{
+                slider.pos -= 1;
+            }
+            place(but);
+        }
+        function auto(){
+            console.log(gpage[0].style);
+            if(slider.free){
+                next(true);
+            }
+            slider.free=true;
+            setTimeout(auto, slider.time);
+        }
+        setTimeout(auto, slider.time);
+    </script>
+</div>
+</div>

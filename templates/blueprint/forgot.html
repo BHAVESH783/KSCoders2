@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static 'css/style1.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        .container::before{
+            content : none;
+        }
+        .container{
+            width:30vw;
+            display:flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .inele{
+            margin: 10px;
+            padding: 10px;
+            font-size: 20px;
+            text-align:center;
+        }
+        .buts{
+            background: rgb(60,124,245);
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+        .buts:hover{
+            cursor: pointer;
+        }
+        @media (max-width: 1040px){
+            .container{
+                width: 50vw;
+                justify-content: center;
+            }
+            #logo{
+                margin:-20px;
+            }
+        }
+        @media (max-width: 600px){
+            .container{
+                width: 100vw;
+            }
+        }
+        .danger{color:red}
+    </style>
+</head>
+
+<body>
+    {% block body %}
+    <form action="/verify/" method="post">
+        {% csrf_token %}
+        <div class="container">
+            <img id="logo" style="width:180px;" src="{% static 'image/jup.png' %}" alt="">
+            <label class="inele" for="email">Enter your registered email ID</label>
+            <input class="inele" type="email" name="email" id="email" placeholder="Email">
+            <div class="inele">{{error}}</div>
+            <input class="inele buts" type="submit" value="Submit">
+            <label>New to JUP? <a href="/signup/">Sign Up</a> </label>
+        </div>
+    </form>
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <title>Add Coupons</title>
+    <style>
+        .inbox>a{
+            /* border: 1px solid black; */
+            margin: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgb(65, 143, 245);
+            color: white;
+            box-shadow: 1px 1px 10px rgb(0, 0, 0);
+        }
+    </style>
+</head>
+<body onscroll="scrolled()">
+{% include "../blueprint/nav.html" %}
+<div class="contact">
+    <h1>Hello admin!</h1>
+    <div class="headc">UP admin page</div>
+    <form action="">
+        <div>{{message}}</div>
+    <div class="inbox">
+    <div>{{text}}</div>
+    <a href="/seller/product">Product Panel</a>
+    <!--<a href="/seller/addmember">Member Panel</a>-->
+    <a href="/seller/addcoupon">Add Coupons</a>
+    <a href="/seller/orders">Orders</a>
+    <a href="/seller/pageform">Add Page</a>
+    <a href="/seller/contacted">Contacts</a>
+    <a href="/seller/uploadmedia">Upload Media</a>
+    <!-- <a href="/seller/addclass/">Add Class</a> -->
+    </div>
+</form>
+</div>
+{% include '../blueprint/footer.html' %}
+</body>
+</html>

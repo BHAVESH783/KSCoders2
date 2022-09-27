@@ -1,0 +1,120 @@
+{% extends '../blueprint/order.html' %}
+
+{% block each %}
+{% for gs in data %}
+<div class="group">
+    <div class="meta">
+        <div class="datess"><b>Ordered on: </b>{{gs.self.Transactiondate}}</div>
+        <b>Payment Status</b>: {% if gs.self.PaymentStatus %}Payment Done<i class="fa fa-check gfc" aria-hidden="true"></i>{% else %}Payment Uncompleted{% endif %}
+        <div class="address"><b>Address:</b> <a href="{{urlalone}}displayaddress/{{gs.self.address.name}}?gid={{gs.self.id}}">({{gs.self.address.name}}){{gs.self.address}}</a> </div>
+    </div>
+    {% for o in gs.data.current %}
+    <div class="ineach">
+        <h1 class="tophead">Not Delivered</h1>
+        <div class="each">
+            <div class="photo">
+                <img src={{o.Image}} alt="">
+            </div>
+            <div class="discription">
+                <a href="{{o.viewpro}}" class="name">{{o.p.Name}}</a>
+                <div class="price">{{o.p.finalprice.tp}}<small>{{o.p.finalprice.ms}}</small></div>
+                <div class="delievery"><b>Delievery Status:</b>{{o.order.status}}</div>
+                <div class="point"><button class="odrbut" onclick="resize('{{o.order.id}}')">View Details</button> </div>
+                <script>
+                    opened = {}
+                    function resize(id){
+                        idobj = document.getElementById(id);
+                        if (!(id in opened) || (!(opened[id]))){
+                            opened[id] = true;
+                            idobj.style.height = "250px";
+                            idobj.style.overflowY = "scroll";
+                        }
+                        else{
+                            opened[id] = false;
+                            idobj.style.height = "0px";
+                            idobj.style.overflowy = "hidden";
+                        }
+                    }
+                </script>
+            </div>
+        </div>
+        <div class="alldata" id="{{o.order.id}}">
+            <div class="subele">
+                {% for n in o.order.Numbers.all %}
+                <span class="labels">{{n.Name}}</span>: <span class="makebox">{{n.Value}}</span>
+                {% endfor %}
+            </div>
+            <div class="subele">
+                {% for t in o.order.Text.all %}
+                <span class="labels">{{t.Name}}</span>: <span class="makebox">{{t.Value}}</span>
+                {% endfor %}
+            </div>
+            <div class="subele">
+                <h2>Your Uploaded files</h2>
+                {% for i in o.order.FileName.all %}
+                <div><img class="imlimit" src="{{url}}{{i.Value}}" alt=""></div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% for o in gs.data.history %}
+    <div class="ineach">
+        <h1 class="tophead">Delivered</h1>
+        <div class="each">
+            <div class="photo">
+                <img src={{o.Image}} alt="">
+            </div>
+            <div class="discription">
+                <a href="{{o.viewpro}}" class="name">{{o.p.Name}}</a>
+                <div class="price">{{o.p.finalprice.tp}}<small>{{o.p.finalprice.ms}}</small></div>
+<!--                <div class="address"><b>Address:</b> <a href="{{urlalone}}displayaddress/{{o.order.Group.address.name}}">{{o.order.Group.address}}</a> </div>-->
+                <div class="delievery"><b>Delievery Status:</b>{{o.order.status}}</div>
+                <div class="rating"><a href="">Please rate this Product</a></div>
+                <div class="point"><button class="odrbut" onclick="resize('{{o.order.id}}')">View Details</button> </div>
+                <script>
+                    opened = {}
+                    function resize(id){
+                        idobj = document.getElementById(id);
+                        if (!(id in opened) || (!(opened[id]))){
+                            opened[id] = true;
+                            idobj.style.height = "250px";
+                            idobj.style.overflowY = "scroll";
+                        }
+                        else{
+                            opened[id] = false;
+                            idobj.style.height = "0px";
+                            idobj.style.overflowy = "hidden";
+                        }
+                    }
+                </script>
+            </div>
+        </div>
+        <div class="alldata" id="{{o.order.id}}">
+            <div class="subele">
+                {% for n in o.order.Numbers.all %}
+                <span class="labels">{{n.Name}}</span>: <span class="makebox">{{n.Value}}</span>
+                {% endfor %}
+            </div>
+            <div class="subele">
+                {% for t in o.order.Text.all %}
+                <span class="labels">{{t.Name}}</span>: <span class="makebox">{{t.Value}}</span>
+                {% endfor %}
+            </div>
+            <div class="subele">
+                <h2>Your Uploaded files</h2>
+                {% for i in o.order.FileName.all %}
+                <div><img class="imlimit" src="{{url}}{{i.Value}}" alt=""></div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+    {% empty %}
+    <h3 class="tophead">No Orderd yet!</h3>
+    {% endfor %}
+{% endblock %}
+
+

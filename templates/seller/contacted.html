@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <title>Add Coupons</title>
+    <style>
+        .inebox{
+            font-size: 20px;
+            box-shadow: 1px 1px 5px black;
+            border-radius: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body onscroll="scrolled()">
+{% include "../blueprint/nav.html" %}
+<div class="contact">
+    <h1>Hello Admin</h1>
+    <div class="headc">contacts</div>
+    <form action="">
+    <div class="inbox">
+        {% for c in contacts %}
+        <div class="inebox">
+            <form action="/seller/deletecontact/" method="post">{% csrf_token %} <input type="hidden" name="whom" value="{{c.id}}"><input type="submit" value="Delete"></form>
+            <div>Name: {{c.name}}</div>
+            <div>email: {{c.email}}</div>
+            <div>message: <br> {{c.message}}</div>
+        </div>
+        {% empty %}
+        <h3>No Contacts</h3>
+        {% endfor %}
+    </div>
+</form>
+</div>
+{% include '../blueprint/footer.html' %}
+</body>
+</html>

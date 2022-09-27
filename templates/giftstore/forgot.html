@@ -1,0 +1,15 @@
+{% extends "../blueprint/forgot.html" %}
+{% load static %}
+{% block body %}
+<form action="/verify/" method="post">
+    {% csrf_token %}
+    <div class="container">
+        <img id="logo" style="width:180px;" src="{% static 'image/jup.png' %}" alt="">
+        <label class="inele" for="email">Enter your registered email ID</label>
+        <input class="inele" type="email" name="email" id="email" placeholder="Email">
+        <div class="inele">{{error}}</div>
+        <input class="inele buts" type="submit" value="Submit">
+        <label>New to JUP? <a href="/signup/">Sign Up</a> </label>
+    </div>
+</form>
+{% endblock %}

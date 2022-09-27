@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/cart/handlerequest/" method="post" name="ops">
+    {% csrf_token %}
+    <input type="hidden" name="hello" id="hello">
+    <input type="submit" value="wow">
+</form>
+<!--<script>-->
+<!--    document.ops.submit();-->
+<!--</script>-->
+</body>
+</html>

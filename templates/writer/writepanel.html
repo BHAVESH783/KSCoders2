@@ -1,0 +1,328 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writer</title>
+    <style>
+        body{
+            margin: 0px;
+        }
+        .panel{
+            display: flex;
+            /* justify-content: space-around; */
+            border-bottom: 1px solid black;
+        }
+        .aibut{
+            background: none;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 20px;
+            margin: 10px;
+        }
+        .aibut:hover{
+            cursor: pointer;
+        }
+        .mainpanel{
+            margin: 10px;
+            display: flex;
+            justify-content: space-around;
+            flex: 1;
+        }
+        .mainpanel>div{
+            /* flex: 1; */
+            /* border: 1px solid black; */
+        }
+        .richholder{
+            /* display: inline-block; */
+            width: 65vw;
+        }
+        .sidebar{
+            width: 30vw;
+        }
+
+        .sidebox{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid black;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.393);
+            margin: 10px;
+        }
+        .sidebox>textarea{
+            /* flex: 1; */
+            width: 100%;
+        }
+        .oops{
+            color: red;
+        }
+        .green{
+            color: green;
+        }
+
+        #cke_id_content{
+            width: 100% !important;
+        }
+        .django-ckeditor-widget{
+            width: 100%;
+        }
+        #id_title{
+            width: 100%;
+            font-size: 20px;
+        }
+    </style>
+
+    <style>
+        .popup{
+            position: absolute;
+            top: 0px;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <button class="aibut" onclick="getarticle()">Ai blog writer</button>
+        <button class="aibut">Topic Generator</button>
+        <button class="aibut">Title Generator</button>
+        <button class="aibut">Paragraph Generator</button>
+        <button class="aibut">Search image</button>
+    </div>
+
+    <div class="mainpanel">
+        <div class="richholder">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form.media}}
+                {{form.as_p}}
+
+                <button>Save Changes</button>
+            </form>
+            
+        </div>
+        <div class="sidebar">
+            <div class="contain">
+                <div class="sidebox">
+                    <h3>Enter Keywords here</h3>
+                    <textarea name="keyword" id="keyword" cols="30" rows="10"></textarea>
+                </div>
+                <div class="sidebox">
+                    <h3>SEO tool</h3>
+                    <ul class="suggest">
+                        <li class="oops">Plese use minimum 3 keywords</li>
+                        <li class="green">You are correct</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="popup" id="pop">
+        <div class="floatbox">
+            <h3>Your content is being generated through AI</h3>
+        </div>
+    </div>
+
+
+    <script>
+        keyword = document.getElementById('keyword');
+        const Http = new XMLHttpRequest();
+        const url = "http://"+ window.location.host+"/write/getarticle/"
+        block = false;
+        popup = document.getElementById('pop');
+        textb = document.getElementById('id_content');
+        title = document.getElementById('id_title');
+        
+
+        function press(e){
+            console.log("yupp")
+        }
+
+        function clicked(e){
+            if(block){
+                e.preventDefault();
+            }
+        }
+        function getarticle(){
+            // popup.style.display = "flex";
+            if(keyword.value.length == 0){
+                alert("Please write a keyword in keyword box");
+                // popup.style.display = "none";
+                // console.log('oops')
+            }
+            else{
+                show();
+                shoot();
+            }
+        }
+
+        function show(){
+            popup.style.display = "flex";
+        }
+
+        function shoot(){
+            popup.style.display = "flex";
+            console.log(url+keyword.value);
+            Http.open("GET", url+keyword.value);
+            Http.send()
+        }
+
+        Http.onreadystatechange = function() {
+        console.log(Http.responseText);
+        if (this.readyState == 4 && this.status == 200) {
+                console.log(Http.responseText)
+                CKEDITOR.instances['id_content'].document.$.body.innerHTML += "<hr><h1>AI Generated</h1>"+Http.responseText;
+                popup.style.display = "none";
+                console.log('done')
+            }
+        }
+
+        messages = {"errors":[], "Best": []}
+
+
+        function KeywordCount(){
+            allkeys = keyword.value;
+            if(allkeys.length == 0){
+                messages['errors'] = messages['errors'].concat("Enter Atleast one keyword")
+            }
+            else{
+                messages['Best'] = messages['Best'].concat("Atleast one Keyword")
+            }
+        }
+
+        // function titlecheck(){
+        //     dh = 0
+        //     tex = title.value.split('')
+        //     allkeys = keyword.value.split(" ");
+        //     for(t=0; t<text.length; t++){
+        //         tx = text[t];
+        //         c = false;
+        //         for(k=0; k<allkeys.length; k++){
+        //             key = allkeys[k]
+        //             if(key.length>2){
+        //                 s = tx.search(key)
+        //                 if(s>-1){
+        //                     dh+=1;
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+
+        function density(text, yes=true, dns=[1,3]){
+            densitys = 0;
+            total = 0
+            allkeys = keyword.value.split(" ");
+            for(t=0; t<text.length; t++){
+                tx = text[t];
+                c = false;
+                for(k=0; k<allkeys.length; k++){
+                    key = allkeys[k]
+                    if(key.length>1){
+                        s = tx.search(key)
+                        if(s>-1){
+                            c = true;
+                        }
+                    }
+                }
+                total += 1;
+                if(c){
+                    densitys += 1;
+                }
+            }
+
+            result = (densitys/total)*100;
+            if(yes){
+                if(result>dns[1]){
+                    messages['errors'] = messages['errors'].concat("Reduce keyword density (should be 2-3%)")
+                }
+                else if(result<dns[0]){
+                    messages['errors'] = messages['errors'].concat("Increase keyword density (should be 2-3%)")
+                }
+                else{
+                    messages['best'] = messages['best'].concat("Keyword density is perfect");
+                }
+            }
+            return result;
+        }
+
+        function errorTitile(pd){
+            if(pd>40){
+                messages['best'] = messages['best'].concat("Title contains keywords");
+            }
+            else{
+                messages['errors'] = messages['errors'].concat("Title should contain keywords more than 40%")
+            }
+        }
+
+        sug = document.getElementsByClassName('suggest')[0];
+
+
+        c = 0
+        function checkout(){
+            if(c%10==0){
+                try {
+                    text = CKEDITOR.instances['id_content'].document.$.body.innerText;
+                    messages = {"errors":[], "Best": []}
+                    text = text.split(' ');
+                    density(text);
+                    // p = title.value.split(' ');
+                    // pd = density(p, false);
+                    KeywordCount();
+                    // errorTitile(pd);
+                    console.log(messages);
+                    ers = messages["errors"];
+                    sug.innerHTML=''
+                    for(e=0;e<ers.length; e++){
+                        em = messages["errors"][e];
+                        sug.innerHTML+="<li class='oops'>"+em+"</li>";
+                    }
+                    sug.innerHTML+="<br>";
+                    bes = messages["Best"];
+                    // sug.innerHTML=''
+                    for(ee=0;ee<bes.length; ee++){
+                        em = messages["Best"][ee];
+                        sug.innerHTML+="<li class='green'>"+em+"</li>";
+                    }
+                }
+                catch(err) {
+                    
+                }
+            }
+            c+=1;
+            window.requestAnimationFrame(checkout);
+        }
+        window.requestAnimationFrame(checkout);
+
+
+        // Keyword density
+        // Atleast one keyword
+        // title should include keywords
+        // Headings should include keywords
+        // plagarism allowed 5-7%
+        // Minimum 300 words
+        
+
+        
+
+
+        // wondow.onload() = (event) => {
+        //     window.requestAnimationFrame(checkout);
+        // }
+    </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+{% extends "../blueprint/allorders.html" %}
+
+{% block new %}
+{% for o in new %}
+<div class="bar">
+    <div class="prode">
+        <div class="imshow">
+            <img src="{{url}}media/{{o.product.HomeImg.img}}" alt="">
+        </div>
+        <div class="content">
+            <h3>{{o.product.Name}}</h3>
+            <div class="line">
+                {{o.product.Price}} Tax:{{o.product.Tax}}% <span class="highlight">ordered By = {{o.orderBy}}</span>
+            </div>
+            <div class="payment">Payment done</div>
+        </div>
+    </div>
+    <div class="features">
+        <div class="file">
+            <ol>
+                {% for f in o.FileName.all %}
+                <li class="files">
+                    <div class="f">{{f.Name}}</div>
+                    <a href="{{url}}media/{{f.Value}}" >
+                        <img src="{{url}}media/{{f.Value}}" class="limg">
+                    </a>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="text">
+            <ol>
+                {% for t in o.Text.all %}
+                <li class="files">
+                    <div class="f">{{t.Name}} : <span class="value">{{t.Value}}</span></div>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="numbers">
+            <ol>
+                {% for n in o.Numbers.all %}
+                <div class="f">{{n.Name}}: {{n.Value}}</div>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+    <div class="form">
+        <form action="/seller/markshipped/" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="oid" value="{{o.id}}">
+            <div class="puts">
+                <label for="till">Delivered Till</label>
+                <input type="date" class="puthold" name="till" id="till" required>
+                <input type="submit" class="puthold butput" value="Mark As Shipped">
+            </div>
+        </form>
+    </div>
+</div>
+{% empty %}
+<h3 align="center">No new orders</h3>
+{% endfor %}
+{% endblock %}
+
+{% block progress %}
+{% for o in shipped %}
+<div class="bar">
+    <div class="prode">
+        <div class="imshow">
+            <img src="{{url}}media/{{o.product.HomeImg.img}}" alt="">
+        </div>
+        <div class="content">
+            <h3>{{o.product.Name}}</h3>
+            <div class="line">
+                {{o.product.Price}} Tax:{{o.product.Tax}}% <span class="highlight">ordered By = {{o.orderBy}}</span>
+            </div>
+            <div class="payment">Payment done</div>
+        </div>
+    </div>
+    <div class="features">
+        <div class="file">
+            <ol>
+                {% for f in o.FileName.all %}
+                <li class="files">
+                    <div class="f">{{f.Name}}</div>
+                    <a href="{{url}}media/{{f.Value}}" >
+                        <img src="{{url}}media/{{f.Value}}" class="limg">
+                    </a>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="text">
+            <ol>
+                {% for t in o.Text.all %}
+                <li class="files">
+                    <div class="f">{{t.Name}} : <span class="value">{{t.Value}}</span></div>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="numbers">
+            <ol>
+                {% for n in o.Numbers.all %}
+                <div class="f">{{n.Name}}: {{n.Value}}</div>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+    <div class="form">
+        <form action="/seller/delivered/" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="oid" value="{{o.id}}">
+            <div class="puts">
+                <label for="till">Delivered on</label>
+                <input type="date" class="puthold" name="till" id="till" value="{{o.when}}" required>
+                <input type="submit" class="puthold butput" value="Mark As Delivered">
+            </div>
+        </form>
+    </div>
+</div>
+{% empty %}
+<h3 align="center">No shipping orders</h3>
+{% endfor %}
+{% endblock %}

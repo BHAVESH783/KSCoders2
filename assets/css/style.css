@@ -1,0 +1,94 @@
+* {
+    margin:0;
+    padding: 0;
+}
+.hero{
+    width: 100%;
+}
+.row{
+    width: 90%;
+    height:100vh;
+    margin: auto;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+}
+.col{
+    flex-basis: 45%;
+}
+.slider{
+    height: 80vh;
+    /* display: flex; */
+}
+.product img{
+    height: 19vh;
+    margin-bottom: 9px;
+    cursor:pointer;
+    margin-top: 30px;
+}
+.preview img{
+    height:50vh;
+    border-radius: 15rem;
+}
+.rating{
+    display: flex;
+}
+.rating .checked{
+
+    color: yellow;
+    margin-bottom: 10px;
+}
+p{
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 900;
+}
+.brand{
+    background-color: #008000;
+    width: fit-content;
+    color: #fff;
+    font-size: 12px;
+    padding: 2px 5px;
+}
+.content>h2{
+    font-size: 45px;
+    color: #555;
+    margin-bottom: 20px;
+}
+.price{
+    color: #fe980f;
+    font-size: 26px;
+    font-weight: bold;
+    padding-top: 10px;
+}
+.content>input{
+    border: 2px solid #555;
+    font-weight: bold;
+    text-align: center;
+}
+.content>form>button{
+    color: #fff;
+    background-color: orangered;
+    border: 0;
+    outline: none;
+    border-radius: 15px;
+    padding: 10px 15px;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-weight: bold;
+}
+.content>button:hover{
+    background-color:red;
+
+}
+.content>button .fa{
+    margin-right: 10px;
+}
+.pp{
+    margin-top: 20px;
+}
+.tt{
+    margin-top: 10px;
+    font-size: small;
+}

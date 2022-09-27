@@ -1,0 +1,240 @@
+{% extends "../blueprint/product.html" %}
+{% load static %}
+{% block title %}
+{{Title}}
+{% endblock %}
+
+{% block images %}
+{% for i in imgQ %}
+    .ping{{i.id}}{
+        background: url("{{url}}media/{{i.HomeImg.img}}")
+    }
+{% endfor %}
+{% endblock %}
+
+{% block firstMG %}
+<img src="{{http}}://{{HOST}}/cart{{firstImage.img.url}}" alt="Not Found" id="imagebox" class="main">
+{% endblock %}
+
+{% block img %}
+    {% for i in Images %}
+    <img src="{{http}}://{{HOST}}/cart{{i.img.url}}" onclick="clickme(this)" alt="not found" class="lists">
+    {% endfor %}
+{% endblock %}
+
+{% block pname %}{{ product.Name }}{% endblock %}
+{% block price %}
+<span id="Mpice">{{ price }}</span>
+<small>(
+    {% if product.Price == price %}
+    Exlcuding Tax {{ product.Tax }}%
+    {% else %}
+    Including Tax
+    {% endif %}
+)</small>
+{% endblock %}
+
+{% block feature %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+<!--        <input type="submit" value="Buy">-->
+        {% if finish %}
+        <div class="danger">Out of stock</div>
+        {% else %}
+            <div class="danger">{{warn}}</div>
+        <div class="rlinks">
+            <button id="whatsapp" type="submit" formaction="/cart/whatsapp/{{product.Name}}/">
+                <i>Order on Whatsapp</i>
+            </button>
+<!--        <button type="submit" formaction="/cart/addproduct/{{product.Name}}/buy/">Buy Now</button>-->
+<!--        <button type="submit" formaction="/cart/addproduct/{{product.Name}}/add/">Add to cart</button>-->
+        </div>
+        {% endif %}
+    </form>
+{% endblock %}
+
+{% block feature2 %}
+    <form action="/cart/addproduct/{{product.Name}}/buy/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for r in Requirements %}
+        <div class="eachf" id="{{r.name}}_c">
+        <input type="hidden" value="{{r.updateStock}}" id="{{r.name}}" name="{{r.name}}" class="ratioc">
+        <h3>{{r.name}}</h3>
+        {% with ''|center:r.updateStock as range %}
+        {% for _ in range %}
+
+        <div class="entry">
+        <!-- <label for="{{r.name}}{{ forloop.counter }}"></label> -->
+        {% if r.Type == "int" %}
+            {% if r.name == 'Quantity' %}
+            <input type="number" id="{{r.name}}" name="{{r.name}}" oninput="struct(this)" class="features {{r.Type}}" min="1" required>
+            {% else %}
+            <input type="number" id="{{r.name}}{{ forloop.counter }}" name="{{r.name}}{{ forloop.counter }}" class="features {{r.Type}}" required>
+            {% endif %}
+        {% elif r.Type == "char" %}
+        <input type="text" id="{{r.name}}{{ forloop.counter }}" name="{{r.name}}{{ forloop.counter }}" class="features {{r.Type}}" required>
+        {% elif r.Type == "image" %}
+        <input type="file" id="{{r.name}}{{ forloop.counter }}" name="{{r.name}}{{ forloop.counter }}" class="features {{r.Type}}" required multiple>
+        <script>
+            var uploadField = document.getElementById("{{r.name}}1");
+
+            uploadField.onchange = function() {
+                for(file=0;file<this.files.length;file++){
+                    if(this.files[file].size > 1048576){
+                       alert("File is too big! should not exceed 3 MB");
+                       this.value = "";
+                       return 0;
+                    };
+                }
+                if(!(this.files.length == maxfile)){
+                   alert("You have to select atleast "+maxfile+" files for the currect quantity");
+                   this.value = "";
+                   return 0;
+                }
+            };
+        </script>
+        {% endif %}
+        </div>
+        {% endfor %}
+        {% endwith %}
+        </div>
+        {% endfor %}
+        <script>
+            const inputDATA = {"Image": [['img'], 0, [], ['Upload Image'], ['input']],
+                               "required": [["Feature_Label", "Feature_ratio","Feature_type"], 0, ["ele"], ['Requirements', 'Ratio', ''], ['input', 'input', 'select'], [{"Number": "int", "Charachters": "char", "File/Image": "image"}], 0],
+                               "category": [["categoryname"], 0, [], ['Category'], ['input']]};
+
+            function addInput(getID, getList, Ftype, newParent = document){
+                    // newInput = document.createElement('input');
+                    InputCount = getList[1]+1;
+                    getList[1] = InputCount;
+                    for(ins=0; ins < getList[0].length; ins++){
+                        newInput = document.createElement(getList[4][ins]);
+                        newName = getList[0][ins] + InputCount;
+                        newInput.name = newName;
+                        newInput.id = newName;
+                        newInput.type = Ftype;
+                        newInput.placeholder = getList[3][ins];
+                        if(getList[4][ins] == 'select'){
+                            splace = getList[6];
+                            for(opt in getList[5][splace]){
+                                newOption = document.createElement('option');
+                                newOption.value = getList[5][splace][opt];
+                                newOption.innerHTML = opt;
+                                newInput.appendChild(newOption);
+                            }
+                            getList[6] += 1;
+                            console.log(getList[6]);
+                        }
+                        if(newParent == document){
+                            parent = newParent.getElementById(getID);
+                        }
+                        else{
+                            parent = newParent;
+                            // console.log(newInput);
+                        }
+                        parent.appendChild(newInput);
+                        newInput = document.createElement('input');
+                    }
+                    getList[6] = 0;
+                    return parent;
+            }
+            function addI(getID, Ftype){
+                newInput = document.createElement('input');
+                getList = inputDATA[getID];
+                if(inputDATA[getID][2].length == 0){
+                    addInput(getID, getList, Ftype);
+                }
+                else{
+                    parents = getList[2];
+                    base = document.createElement("div");
+                    base.classList.add(parents[0]);
+                    under = base;
+                    for(Pele = 1; Pele<=parents.length-1; Pele++){
+                        under = document.createElement("div");
+                        under.classList.add(parents[Pele]);
+                        base.appendChild(under);
+                    }
+                    attach = addInput(parents[parents.length-1], getList, Ftype, under);
+                    document.getElementById(getID).appendChild(attach);
+                }
+            }
+        </script>
+        <script>
+            maxfile = 1
+            priceV = {{ price }};
+            function struct(t){
+                getrs = document.getElementsByClassName('ratioc');
+                price = document.getElementById('Mpice');
+                price.innerHTML = priceV*t.value
+                for(ra=0;ra<getrs.length;ra++){
+                    ratios = getrs[ra]
+                    acr = parseInt(ratios.value)
+                    sample = document.getElementById(ratios.id + '1');
+                    holder = document.getElementById(ratios.id + '_c');
+                    if(!(ratios.id == "Quantity")){
+                        qty = t.value;
+                        need = qty*acr;
+                        if(sample.type == 'file'){
+                            maxfile = need;
+                            console.log(maxfile);
+                            return 0;
+                        }
+                        allentry = holder.getElementsByClassName('entry');
+                        checknum = need;
+                        for(check=0;check<allentry.length;check++){
+                            entrys = allentry[check]
+                            if(checknum<=0){
+                                holder.removeChild(entrys);
+                                check -= 1
+                            }
+                            checknum-=1
+                        }
+
+                        if(!(ratios.id + "_c" in inputDATA)){
+                        inputDATA[ratios.id + "_c"] = [[ratios.id], allentry.length, ["entry"], [ratios.placeholder], [sample.nodeName.toLowerCase()]]
+                        }
+                        if(checknum>0){
+                            for(adn=0;adn<checknum;adn++){
+                                addI(ratios.id + "_c", sample.type)
+                            }
+                        }
+
+                    }
+                }
+            }
+        </script>
+<!--        <input type="submit" value="Buy">-->
+        {% if finish %}
+        <div class="danger">Out of stock</div>
+        {% else %}
+            <div class="danger">{{warn}}</div>
+        <div class="rlinks">
+            <button id="whatsapp" type="submit" formaction="/cart/whatsapp/{{product.Name}}/">
+                <i>Order on Whatsapp</i>
+            </button>
+<!--        <button type="submit" formaction="/cart/addproduct/{{product.Name}}/buy/">Buy Now</button>-->
+<!--        <button type="submit" formaction="/cart/addproduct/{{product.Name}}/add/">Add to cart</button>-->
+        </div>
+        {% endif %}
+    </form>
+    <script>
+
+    </script>
+
+{% endblock %}
+
+{% block detail %}{{ product.Description }}{% endblock %}
+
+{% block related %}
+    {% for p in related %}
+    {% include '../blueprint/card.html' %}
+    {% endfor %}
+{% endblock %}
+
+
+{% block recent %}
+    {% for p in recent %}
+    {% include '../blueprint/card.html' %}
+    {% endfor %}
+{% endblock %}

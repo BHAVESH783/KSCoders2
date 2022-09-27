@@ -1,0 +1,24 @@
+{% extends "../blueprint/forgot.html" %}
+{% load static %}
+{% block body %}
+<form action="/makenewsubmit/" method="post">
+    {% csrf_token %}
+    <div class="container">
+        <img id="logo" style="width:180px;" src="{% static 'image/jup.png' %}" alt="">
+        <div class="inele">Create a new Password</div>
+        <div class="inele danger" style="color: red;">{{error}}</div>
+        <input type="hidden" id="email" name="email" value="{{email}}">
+        <input type="hidden" id="key" name="key" value="{{key}}">
+        <input class="inele" type="password" id="newpassword" name="newpassword" placeholder="New password" required>
+        <input class="inele" type="password" id="repeatpassword" name="repeatpassword" placeholder="Repeat Password" required>
+        <div class="inele">
+            <ul>
+            {% for mistake in errors %}
+                <li>{{mistake}}</li>
+            {% endfor %}
+            </ul>
+        </div>
+        <input class="inele buts" class="inele buts" type="submit" value="Submit">
+    </div>
+</form>
+{% endblock %}

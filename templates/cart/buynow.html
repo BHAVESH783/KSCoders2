@@ -1,0 +1,88 @@
+{% extends '../blueprint/cart.html' %}
+{% block title %}Cart{% endblock %}
+
+
+{% block trs %}
+
+{% for product in complete %}
+
+<tr>
+    <td>
+        <div class="cart-info">
+            <img src="{{http}}://{{HOST}}/cart{{product.Image.url}}">
+            <div>
+                <p>{{product.Name}}</p>
+                <small>Price: ₹{{product.Price}}</small>
+                <small>Tax: ₹{{product.Tax}}</small>
+                <br>
+                <a href="/cart/remove/{{action}}/{{product.Name}}/">Remove</a>
+            </div>
+
+        </div>
+    </td>
+    <td><div>{{product.qty}}</div></td>
+    <!-- <td><a href="">Update</a></td> -->
+    <td style="text-align: end;">₹{{product.total}}</td>
+</tr>
+
+{% empty %}
+<h1>Your Cart is Empty!</h1>
+{% endfor %}
+
+{% endblock %}
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Now</title>
+    <style>
+        img{
+            height: 200px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Checkout Orders</h1>
+    <form action="/cart/buynow/{{action}}/" method="post">
+        {% csrf_token %}
+    <div class="content">
+        {% for product in complete %}
+            <div class="record">
+                <div class="image">
+                    <img src="{{http}}://{{HOST}}/cart{{product.Image.url}}" alt="">
+                </div>
+                <div class="name">
+                    {{product.Name}}
+                    <input type="hidden" name="Name" value="{{product.Name}}">
+                </div>
+                <div class="price">
+                    <div class="amount">{{product.Price}}</div>
+                    <div class="tax">{{product.Tax}}</div>
+                </div>
+                <div class="features">
+                    {% for i,v in product.feature.items %}
+                    <div class="fds">
+                        {% for k in v %}
+                            {{k.Name}}-{{k.Value}}
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="ptotal">
+                </div>
+            </div>
+        {% endfor %}
+        <div class="endtotal">
+            {{endTotal}}
+        </div>
+        <input type="text" name="coupon" id="coupon">
+        <button type="submit" formaction="/cart/applyCoupon/{{action}}/">Apply Coupon</button>
+        <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html> -->

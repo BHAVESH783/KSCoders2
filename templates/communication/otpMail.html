@@ -1,0 +1,77 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Email Verification</title>
+        <style>
+            body{margin: 0px;}
+            .tophead, .otp{
+                background: rgb(60, 134, 245); color: white;
+            }
+            .tophead, .mainbody{
+                display: flex; justify-content: center; align-items: center; font-size: 30px;
+            }
+            
+            .mainbody {
+            padding: 30px;
+            flex-direction: column;
+            }
+            
+            .otp, .footer{
+                padding: 20px;
+            }
+            .otp {
+            font-size: 30px; margin: 40px; border-radius: 10px;
+            }
+            
+            .footer {
+                background: lightgray; text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="tophead">
+            <table>
+                <tr>
+                    <th>
+                        <div class="nav">
+                            <img src="https://drive.google.com/drive/folders/1Wll8C3t4QiqKNJaic-2E8BRxxzT5vqRU?usp=sharing">
+                        </div>
+                    </th>
+                    <th>
+                        <div class="content">
+                            Email Verification
+                        </div>
+                    </th>
+                </tr>
+            </table>
+        </div>
+            <div class="mainbody"  fr-original-style="flex-direction: column;">
+                <table>
+                    <tr>
+                        <th><h2>Your CIPHER email verify OTP:</h2></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="otp" style="text-align: center;">
+                                <a href="{{link}}">{{otp}}</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Please do not share your OTP or any other links provided to any other person. We never call our users to ask you their Email Verification OTP. This OTP(One Time Password) is only valid for 5 minutes from the OTP is generated.</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="footer">
+                Disclaimer: We will be not responsible for any mistake of sharing of your OTP. <br>
+                But you should immediately contact us so that we can take action against it.
+                <br>
+                For more information go to <a href="{{url}}">Disclaimer page</a>
+            </div>
+    </body>
+</html>

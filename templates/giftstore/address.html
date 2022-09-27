@@ -1,0 +1,60 @@
+{% extends '../blueprint/address.html' %}
+{% block bodys %}
+<div class="contact">
+    <div class="headc">One more step to complete your account</div>
+    <form action="/saveAddress/" method="post">
+        <div class="inbox">
+        {% csrf_token %}
+        <div style="display:flex; justify-content:space-around;">
+            <input class="strech" type="text" name="first" id="first" placeholder="First Name" required>
+            <input class="strech" type="text" name="last" id="last" placeholder="Last Name" required>
+        </div>
+        <div>Enter your address</div>
+        <div class="eidiv">
+            <label for="name" style="font-size:20px">Enter address name <small>(Ex. Home, Office)</small></label>
+            <input type="text" name="name" id="name" value="Home" required>
+        </div>
+        <div class="eidiv">
+            <input type="number" name="pincode" id="pincode" placeholder="Pincode" onblur="updateCS()" required>
+            <input name="address" id="address" placeholder="Address" required></input>
+            <input name="address2" id="address2" placeholder="Address Line 2" required></input>
+            <input type="text" name="city" id="city" placeholder="City" required>
+            <input type="text" name="state" id="state" placeholder="State" required>
+            <input type="text" name="country" id="country" placeholder="Country" required>
+            <input type="submit" value="Submit">
+        </div>
+        <script>
+        function c(){
+        console.log(1);
+        }
+            already = 0
+            pin = {}
+            function updateCS(){
+                v = document.getElementById('pincode').value
+                if (already != v){
+                    pin = pincode(v);
+                }
+                if (pin[0].Status == "Success"){
+                    already = v;
+                    pas = pin[0]['PostOffice'][0];
+                    city = pas['District'];
+                    state = pas['State'];
+                    country = pas['Country'];
+                    document.getElementById('city').value = city;
+                    document.getElementById('state').value = state;
+                    document.getElementById('country').value = country;
+                }
+            }
+            function pincode(theUrl)
+            {
+                a = String(theUrl)
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "GET", "https://api.postalpincode.in/pincode/"+a, false ); // false for synchronous request
+                xmlHttp.send( null );
+                return JSON.parse(xmlHttp.responseText);
+            }
+        </script>
+        </div>
+    </form>
+</div>
+{% endblock %}
